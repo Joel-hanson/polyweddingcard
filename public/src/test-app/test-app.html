@@ -1,0 +1,47 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/google-map/google-map.html">
+<link rel="import" href="../../bower_components/geo-location/geo-location.html">
+<dom-module id="test-app">
+    <template>
+    <style>
+      :host {
+        display: block;
+      }
+.first_half{
+  height: 50vh;
+  background-color: #CFD8DC;
+}
+.second_half{
+  height:50vh;
+}
+    </style>
+   <div class="first_half"> 
+     joel hanson
+   </div>
+    <div class="second_half"> 
+
+      <geo-location watch-pos high-accuracy latitude="{{lat}}"
+               longitude="{{lng}}"></geo-location>
+     <google-map latitude="[[lat]]" longitude="[[lng]]" zoom="15" fit-to-markers>
+<google-map-marker latitude="[[lat]]" longitude="[[lng]]"
+      title="Go Giants!"></google-map-marker>
+
+     </google-map>
+   </div>
+  </template>
+
+    <script>
+        Polymer({
+
+            is: 'test-app',
+
+            properties: {
+                prop1: {
+                    type: String,
+                    value: 'test-app',
+                },
+            },
+
+        });
+    </script>
+</dom-module>
