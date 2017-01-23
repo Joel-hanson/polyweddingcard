@@ -1,33 +1,51 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/google-map/google-map.html">
 <link rel="import" href="../../bower_components/geo-location/geo-location.html">
+<link rel="import" href="../../bower_components/google-map/google-map-directions.html">
+<link rel="import" href="../../bower_components/paper-carousel/paper-carousel.html">
+
 <dom-module id="test-app">
     <template>
     <style>
       :host {
         display: block;
+       
       }
 .first_half{
   height: 50vh;
-  background-color: #CFD8DC;
+  background-color: #fff;
 }
 .second_half{
   height:50vh;
 }
+
     </style>
    <div class="first_half"> 
-     joel hanson
+    <paper-carousel items="1" dotText="false" style="width: inherit;height: inherit;" >
+    <img src="https://unsplash.it/800/800/?image=257" draggable="false"/>
+    <img src="https://unsplash.it/800/800/?image=250" draggable="false"/>
+    <img src="https://unsplash.it/800/800/?image=399" draggable="false"/>
+    <img src="https://unsplash.it/800/800/?image=146" draggable="false"/>
+    <img src="https://unsplash.it/800/800/?image=248" draggable="false"/>
+</paper-carousel>
    </div>
+
+
     <div class="second_half"> 
 
-      <geo-location watch-pos high-accuracy latitude="{{lat}}"
+      <geo-location high-accuracy latitude="{{lat}}"
                longitude="{{lng}}"></geo-location>
-     <google-map latitude="[[lat]]" longitude="[[lng]]" zoom="15" fit-to-markers>
-<google-map-marker latitude="[[lat]]" longitude="[[lng]]"
-      title="Go Giants!"></google-map-marker>
+                <google-map-directions map="[[map]]"
+    start-address="{{lat}}, {{lng}}" end-address="Ernakulam, 8081Kerala"  travel-mode="DRIVING">
+</google-map-directions>
+ 
+     <google-map map="{{map}}" latitude="[[lat]]" longitude="[[lng]]"  zoom="70" fit-to-markers >
 
      </google-map>
+
+
    </div>
+  
   </template>
 
     <script>
