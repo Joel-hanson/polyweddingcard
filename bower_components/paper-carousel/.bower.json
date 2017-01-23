@@ -1,0 +1,42 @@
+{
+  "name": "paper-carousel",
+  "version": "1.1.0",
+  "authors": [
+    "Óscar Solás <oscarsolas@gmail.com>",
+    "Redbility <oscar.solas@redbility.com>"
+  ],
+  "description": "Polymer element for displaying a responsive carousel",
+  "main": [
+    "paper-carousel.html"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/Redbility/paper-carousel",
+  "ignore": [
+    "bower_components",
+    "source"
+  ],
+  "keywords": [
+    "web-components",
+    "carousel",
+    "slider",
+    "gallery",
+    "images",
+    "responsive"
+  ],
+  "dependencies": {
+    "polymer": "polymer/polymer#^v1.2.0",
+    "iron-icons": "PolymerElements/iron-icons#^1.0.0",
+    "iron-resizable-behavior": "PolymerElements/iron-resizable-behavior#^1.0.0",
+    "paper-styles": "PolymerElements/paper-styles#^1.0.0"
+  },
+  "_release": "1.1.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "1.1.0",
+    "commit": "f0e773af84aa49364c1d408dda31c1ae61d04c7d"
+  },
+  "_source": "https://github.com/Redbility/paper-carousel.git",
+  "_target": "^1.1.0",
+  "_originalSource": "Redbility/paper-carousel",
+  "_direct": true
+}

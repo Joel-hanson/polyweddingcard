@@ -14,15 +14,30 @@
     <script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 
     <link rel="import" href="/src/test-app/test-app.html">
+    <link rel="import" href="/bower_components/bottom-nav/bottom-nav.html">
+    <link href="/bower_components/iron-icons/iron-icons.html" rel="import">
+    <link href="/bower_components/iron-icons/editor-icons.html" rel="import">
+
+
     <style>
         body {
             margin: 0;
+        }
+        
+        bottom-nav {
+            background-color: #3f51b5;
         }
     </style>
 </head>
 
 <body>
     <test-app></test-app>
+    <bottom-nav fixed="true">
+        <bottom-toolbar selected="0">
+            <bottom-tab icon="icons:home"></bottom-tab>
+            <bottom-tab icon="editor:insert-invitation"></bottom-tab>
+        </bottom-toolbar>
+    </bottom-nav>
 </body>
 
 </html>
