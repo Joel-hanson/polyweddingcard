@@ -1,0 +1,97 @@
+<html><head><link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-behaviors/iron-button-state.html">
+<link rel="import" href="../iron-behaviors/iron-control-state.html">
+<link rel="import" href="../iron-icon/iron-icon.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
+
+
+
+</head><body><dom-module id="bottom-tab">
+  <template>
+    <style>
+     :host {
+       @apply(--layout-inline);
+       @apply(--layout-center);
+       @apply(--layout-center-justified);
+       @apply(--layout-flex-auto);
+
+       position: relative;
+       padding: 0 12px;
+       overflow: hidden;
+       cursor: pointer;
+       vertical-align: middle;
+
+       @apply(--paper-font-common-base);
+       @apply(--bottom-tab);
+     }
+
+     :host(:focus) {
+       outline: none;
+     }
+
+     :host([link]) {
+       padding: 0;
+     }
+
+     .tab-content {
+       height: 100%;
+       transform: translateZ(0);
+       -webkit-transform: translateZ(0);
+       transition: opacity 0.1s cubic-bezier(0.4, 0.0, 1, 1);
+       @apply(--layout-horizontal);
+       @apply(--layout-center-center);
+       @apply(--bottom-tab-content);
+     }
+
+     :host(:not(.iron-selected)) {
+       transition: width .15s cubic-bezier(0.4, 0.0, 1, 1);
+       width: 2em;
+     }
+
+     :host(:not(.iron-selected)) > .tab-content {
+       margin-bottom: 0;
+       opacity: 0.8;
+       transition: margin-bottom .15s cubic-bezier(0.4, 0.0, 1, 1);
+
+       @apply(--layout-vertical);
+       @apply(--bottom-tab-content-unselected);
+     }
+
+     :host(:not(.iron-selected)) :not([show]).label {
+       display: none;
+     }
+
+     :host(:focus) .tab-content {
+       font-weight: 700;
+       opacity: 1;
+     }
+
+     .tab-content > ::content > a {
+       height: 100%;
+       width: 2em;
+     }
+
+     :host(.iron-selected:not([fixed])) {
+       width: 3.5em;
+     }
+
+     :host(.iron-selected) > .tab-content {
+       font-size: 10pt;
+       margin-bottom: 6px;
+       transition: margin-bottom .15s cubic-bezier(0.4, 0.0, 1, 1);
+
+       @apply(--layout-vertical);
+       @apply(--bottom-tab-content-selected);
+     }
+    </style>
+
+    <div class="tab-content">
+      <iron-icon icon="[[icon]]"></iron-icon>
+      <span show$="[[showLabel]]" class="label">[[label]]</span>
+      <content></content>
+    </div>
+  </template>
+
+  <script>Polymer({is:"bottom-tab",behaviors:[Polymer.IronControlState,Polymer.IronButtonState],properties:{link:{type:Boolean,value:!1,reflectToAttribute:!0},label:String,showLabel:{type:Boolean,value:!1},icon:String,selectedClass:String},hostAttributes:{role:"tab"},listeners:{down:"_updateNoink",tap:"_onTap"},attached:function(){this._updateNoink()},get _parentNoink(){var t=Polymer.dom(this).parentNode;return!!t&&!!t.noink},_updateNoink:function(){this.noink=!!this.noink||!!this._parentNoink},_isSelected:function(){return Polymer.dom(this).node.hasAttribute("aria-selected")},_updateClass:function(){details={className:this.selectedClass},this.fire("bottom-tab-update-class",details)},_activateRipple:function(t){if(!this._isSelected()&&!this.noink){var e=t.detail.x,i=t.detail.y,n={x:e,y:i};this.fire("bottom-tab-ripple",n),this._updateClass()}},_onTap:function(t){if(this.link){var e=this.queryEffectiveChildren("a");if(!e)return;if(t.target===e)return;e.click()}this._activateRipple(t)}});</script>
+</dom-module>
+</body></html>

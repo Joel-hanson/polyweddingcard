@@ -1,0 +1,42 @@
+<html><head><meta charset="UTF-8"><link rel="import" href="test-shell.html"></head><body><dom-module id="test-app">
+    <template>
+    <style>
+      :host {
+        display: block;
+       
+      }
+.first_half{
+  height: 50vh;
+  background-color: #fff;
+}
+.second_half{
+  height:50vh;
+}
+
+    </style>
+   <div class="first_half"> 
+    <paper-carousel items="1" dottext="false" style="width: inherit;height: inherit">
+    <img src="https://unsplash.it/800/800/?image=257" draggable="false">
+    
+    
+</paper-carousel>
+   </div>
+
+
+    <div class="second_half"> 
+
+      <geo-location high-accuracy="" latitude="{{lat}}" longitude="{{lng}}"></geo-location>
+                <google-map-directions map="[[map]]" start-address="{{lat}}, {{lng}}" end-address="Ernakulam, 8081Kerala" travel-mode="DRIVING">
+</google-map-directions>
+ 
+     <google-map map="{{map}}" latitude="[[lat]]" longitude="[[lng]]" zoom="70" fit-to-markers="">
+
+     </google-map>
+
+
+   </div>
+  
+  </template>
+
+    <script>Polymer({is:"test-app",properties:{prop1:{type:String,value:"test-app"}}});</script>
+</dom-module></body></html>

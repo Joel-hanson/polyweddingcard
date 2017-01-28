@@ -1,0 +1,78 @@
+<html><head><link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../iron-menu-behavior/iron-menubar-behavior.html">
+<link rel="import" href="../iron-resizable-behavior/iron-resizable-behavior.html">
+<link rel="import" href="../paper-ripple/paper-ripple.html">
+<link rel="import" href="../paper-styles/color.html">
+<link rel="import" href="../paper-tabs/paper-tab.html">
+
+
+
+</head><body><dom-module id="bottom-toolbar">
+  <template>
+    <style>
+      :host {
+        @apply(--layout);
+        @apply(--layout-center);
+
+        height: 64px;
+        font-size: 14px;
+        font-weight: 500;
+        overflow: hidden;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -webkit-user-select: none;
+        user-select: none;
+
+        /* NOTE: Both values are needed, since some phones require the value to be `transparent`. */
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        -webkit-tap-highlight-color: transparent;
+
+        @apply(--bottom-toolbar);
+      }
+
+      :host-context([dir=rtl]) {
+        @apply(--layout-horizontal-reverse);
+      }
+
+      #tabsContainer {
+        position: relative;
+        height: 100%;
+        white-space: nowrap;
+        overflow: hidden;
+        @apply(--layout-flex-auto);
+        @apply(--bottom-toolbar-container);
+      }
+
+      #tabsContent {
+        height: 100%;
+        @apply(--bottom-toolbar-content);
+      }
+
+     #tabsContent {
+        @apply(--layout-horizontal);
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      .not-visible {
+        opacity: 0;
+        cursor: default;
+      }
+
+    </style>
+
+    <div id="tabsContainer" on-down="_down">
+      <div id="tabsContent">
+        <paper-ripple id="ripple" noink=""></paper-ripple>
+        <content select="*"></content>
+      </div>
+    </div>
+
+  </template>
+
+  <script>Polymer({is:"bottom-toolbar",behaviors:[Polymer.IronResizableBehavior,Polymer.IronMenubarBehavior],properties:{noink:{type:Boolean,value:!1,observer:"_noinkChanged"},selectable:{type:String,value:"bottom-tab"},autoselect:{type:Boolean,value:!1},autoselectDelay:{type:Number,value:0},_previousTab:{type:Object},_selectedClass:String},hostAttributes:{role:"tablist"},listeners:{"iron-resize":"_onTabSizingChanged","iron-items-changed":"_onTabSizingChanged","iron-select":"_onIronSelect","iron-deselect":"_onIronDeselect","bottom-tab-ripple":"_downAction","bottom-tab-update-class":"_selectClass"},keyBindings:{"left:keyup right:keyup":"_onArrowKeyup"},created:function(){this._holdJob=null,this._pendingActivationItem=void 0,this._pendingActivationTimeout=void 0,this._bindDelayedActivationHandler=this._delayedActivationHandler.bind(this),this.addEventListener("blur",this._onBlurCapture.bind(this),!0)},ready:function(){this.setScrollDirection("y",this.$.tabsContainer)},attached:function(){this._fixedChanged();var t=this.items[this.selected];if(t){var e=t.getAttribute("selected-class");e&&this._updateClass(e)}},detached:function(){this._cancelPendingActivation()},_selectClass:function(t){var e=t.detail.className,i=this._selectedClass;e&&e!=i&&this._updateClass(e)},_updateClass:function(t){Polymer.dom(this).classList.remove(this._selectedClass),this._selectedClass=t,Polymer.dom(this).classList.add(this._selectedClass)},_downAction:function(t){var e=t.detail.x,i=t.detail.y;this.$.ripple.downAction({detail:{x:e,y:i}}),this._upAction()},_upAction:function(){this.$.ripple.upAction()},_noinkChanged:function(t){this._updateAttribute("noink",t)},_fixedChanged:function(){var t=Polymer.dom(this).parentNode.fixed;this._updateAttribute("fixed",t)},_updateAttribute:function(t,e){var i=Polymer.dom(this).querySelectorAll("bottom-tab");i.forEach(function(i){e?this._setAttribute(i,t):this._removeAttribute(i,t)}.bind(this))},_setAttribute:function(t,e){t.setAttribute(e,"")},_removeAttribute:function(t,e){t.removeAttribute(e)},_onTabSizingChanged:function(){this.debounce("_onTabSizingChanged",function(){},10)},_onIronSelect:function(t){this._previousTab=t.detail.item,this.cancelDebouncer("tab-changed")},_onIronDeselect:function(t){this.debounce("tab-changed",function(){this._tabChanged(null,this._previousTab),this._previousTab=null},1)},_activateHandler:function(){this._cancelPendingActivation(),Polymer.IronMenuBehaviorImpl._activateHandler.apply(this,arguments)},_scheduleActivation:function(t,e){this._pendingActivationItem=t,this._pendingActivationTimeout=this.async(this._bindDelayedActivationHandler,e)},_delayedActivationHandler:function(){var t=this._pendingActivationItem;this._pendingActivationItem=void 0,this._pendingActivationTimeout=void 0,t.fire(this.activateEvent,null,{bubbles:!0,cancelable:!0})},_cancelPendingActivation:function(){void 0!==this._pendingActivationTimeout&&(this.cancelAsync(this._pendingActivationTimeout),this._pendingActivationItem=void 0,this._pendingActivationTimeout=void 0)},_onArrowKeyup:function(t){this.autoselect&&this._scheduleActivation(this.focusedItem,this.autoselectDelay)},_onBlurCapture:function(t){t.target===this._pendingActivationItem&&this._cancelPendingActivation()},_down:function(t){this.async(function(){this._defaultFocusAsync&&(this.cancelAsync(this._defaultFocusAsync),this._defaultFocusAsync=null)},1)}});</script>
+</dom-module>
+</body></html>
