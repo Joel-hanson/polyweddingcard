@@ -4,13 +4,13 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
-    <title>test</title>
+    <title>Wedding card</title>
     <meta name="description" content="test description">
     <link rel="manifest" href="/manifest.json">
     <script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-
+    <link rel="icon" sizes="192x192" href="/image/images.png">
     <link rel="import" href="/src/test-shell.html">
-
+    <meta name="theme-color" content="#1e88e5">
 
     <style>
         body {
@@ -21,6 +21,13 @@
 
 <body>
     <test-shell></test-shell>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/service-worker.js');
+            });
+        }
+    </script>
 </body>
 
 </html>

@@ -29,7 +29,7 @@
 
 
 /* eslint-disable quotes, comma-spacing */
-var PrecacheConfig = [["/index.html","14b077e829ec4bee3ea5adc34e469bdd"],["/src/test-app.html","dbd1bc35cd4a5a739d0884137d0920e0"],["/src/test-shell.html","3a42ebf991eb34055342c9e25651802d"]];
+var PrecacheConfig = [["/bower_components/webcomponentsjs/webcomponents-lite.min.js","02395895d5d08242c6ba93518a6da2c5"],["/image/bg.jpg","be7c8f10e51d43ddcb4edb9fa1ea8d90"],["/image/images.png","41c2943725457b5a34e275abe7f92bf3"],["/index.html","1162e2a45d3c42563a8dd3417ae0daee"],["/manifest.json","03750c471c403c166dd4c8d07619f734"],["/src/test-app.html","170650ee61e86b15d7f222296ad5a97d"],["/src/test-shell.html","278ce463655886a9e51aa689854fb3fa"]];
 /* eslint-enable quotes, comma-spacing */
 var CacheNamePrefix = 'sw-precache-v1--' + (self.registration ? self.registration.scope : '') + '-';
 
@@ -216,7 +216,7 @@ self.addEventListener('fetch', function(event) {
       cacheName = AbsoluteUrlToCacheName[urlWithoutIgnoredParameters];
     }
 
-    var navigateFallback = '';
+    var navigateFallback = 'index.html';
     // Ideally, this would check for event.request.mode === 'navigate', but that is not widely
     // supported yet:
     // https://code.google.com/p/chromium/issues/detail?id=540967
