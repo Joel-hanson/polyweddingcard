@@ -3,26 +3,45 @@
 <link rel="import" href="../bower_components/geo-location/geo-location.html">
 <link rel="import" href="../bower_components/google-map/google-map-directions.html">
 <link rel="import" href="../bower_components/paper-carousel/paper-carousel.html">
+<link rel="import" href="../bower_components/iron-image/iron-image.html">
+<link rel="import" href="../bower_components/paper-spinner/paper-spinner.html">
 
 </head><body><dom-module id="test-app">
     <template>
     <style>
       :host {
         display: block;
-       
+       --iron-image-height:50vh;
+       --iron-image-width:auto;
       }
 .first_half{
   height: 50vh;
   background-color: #fff;
+    display: flex;
+  justify-content: center;
+    align-items: center;
 }
 .second_half{
   height:50vh;
 }
 
+.overlay{
+    height: inherit;
+    display: flex;
+    position: absolute;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    background: #fff;
+}
+img{
+background-size: contain;
+}
     </style>
    <div class="first_half"> 
-    <paper-carousel items="1" dottext="false" style="width: 100%">
-    <img src="../image/bg.jpg" draggable="false" style="height: 50vh">
+    <paper-carousel items="1" dottext="false">
+    <iron-image placeholder="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSgBBwcHCggKEwoKEygaFhooKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKP/AABEIAAEAAQMBEQACEQEDEQH/xAGiAAABBQEBAQEBAQAAAAAAAAAAAQIDBAUGBwgJCgsQAAIBAwMCBAMFBQQEAAABfQECAwAEEQUSITFBBhNRYQcicRQygZGhCCNCscEVUtHwJDNicoIJChYXGBkaJSYnKCkqNDU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6g4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2drh4uPk5ebn6Onq8fLz9PX29/j5+gEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoLEQACAQIEBAMEBwUEBAABAncAAQIDEQQFITEGEkFRB2FxEyIygQgUQpGhscEJIzNS8BVictEKFiQ04SXxFxgZGiYnKCkqNTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqCg4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2dri4+Tl5ufo6ery8/T19vf4+fr/2gAMAwEAAhEDEQA/APleWR5pXkldnkclmZjksT1JPc0bDbvqz//Z" src="../image/bg.jpg" preload="" fade="" draggable="false" alt="wedding image"></iron-image>
     
     
 </paper-carousel>
@@ -30,19 +49,21 @@
 
 
     <div class="second_half"> 
-
-      <geo-location high-accuracy="" latitude="{{lat}}" longitude="{{lng}}"></geo-location>
-                <google-map-directions map="[[map]]" start-address="{{lat}}, {{lng}}" end-address="Ernakulam, 8081Kerala" travel-mode="DRIVING">
-</google-map-directions>
- 
-     <google-map map="{{map}}" latitude="[[lat]]" longitude="[[lng]]" fit-to-markers="">
-
-     </google-map>
+        <div class="overlay" hidden$="[[!loaded]]">
+<paper-spinner active="[[loaded]]"></paper-spinner>
+            
+        </div>
+               <geo-location high-accuracy="" latitude="{{lat}}" longitude="{{lng}}">
+               </geo-location>
+                <google-map-directions map="[[map]]" on-google-map-response="_loadedd" start-address="{{lat}}, {{lng}}" end-address="Ernakulam, 8081Kerala" travel-mode="DRIVING">
+                </google-map-directions>
+                <google-map map="{{map}}" latitude="[[lat]]" longitude="[[lng]]" fit-to-markers="">
+                </google-map>
 
 
    </div>
   
   </template>
 
-    <script>Polymer({is:"test-app",properties:{prop1:{type:String,value:"test-app"}}});</script>
+    <script>Polymer({is:"test-app",properties:{prop1:{type:String,value:"test-app"},loaded:{type:Boolean,value:!0,notify:!1}},_loadedd:function(){this.loaded=!1}});</script>
 </dom-module></body></html>

@@ -4,8 +4,8 @@
     "description": "wedding web app",
     "start_url": "/",
     "display": "standalone",
-    "theme_color": "#1e88e5",
-    "background_color": "#1e88e5",
+    "theme_color": "#F44336",
+    "background_color": "#F44336",
     "icons": [{
         "src": "image/images.png",
         "sizes": "192x192",

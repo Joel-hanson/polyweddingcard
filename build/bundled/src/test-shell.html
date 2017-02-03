@@ -932,25 +932,453 @@ n&&e.updateNativeStyleProperties(document.documentElement,this.customStyle)}};re
     </div>
   </template>
   <script>(function(){Polymer({is:"paper-carousel",behaviors:[Polymer.IronResizableBehavior],listeners:{"iron-resize":"_onResize"},items:function(){var t,e,r,s,o,i;if(s=this,o=s.getBoundingClientRect(),null!==s.getAttribute("responsive"))for(r=s.getAttribute("responsive").replace(/\s/g,"").split(","),e=0;e<r.length;){if(t=r[e].split(":"),i=r[e+1]?r[e+1].split(":"):{0:0},o.width<=t[0]&&o.width>i[0])return t[1];e++}return null!==s.getAttribute("items")?s.getAttribute("items"):1},_dotText:function(){var t,e;return t=this,e=t.getAttribute("dotText"),null===e||"false"!==e},getTotalItems:function(){var t,e,r,s,o,i,a;for(s=this,o=s.querySelector(".paper-carousel_wrapper"),a=0,i=o.children,e=0,r=i.length;e<r;e++)t=i[e],"template"!==t.localName&&a++;return a},getPages:function(){var t,e,r,s;for(e=this,t=1,r=[],s=[];t<=this.getTotalItems();)r.push(t-1),t%this.items()===0&&(s.push(r),r=[]),t===this.getTotalItems()&&s.push(r),t++;return s},getTotalPages:function(){var t;return t=this,Math.ceil(this.getTotalItems()/this.items())},getContainerPosition:function(){var t,e,r,s,o;return t=this,e=t.querySelector(".paper-carousel_wrapper"),r=e.style.transform,o=0,""!==r&&(s=r.match(/translateX\((.*)/)[0],o=s.match(/\((.*)\)/)[0],o=o.substr(1,o.length-2),o=parseFloat(o)),o},getCurrentItem:function(){var t,e;for(e=Math.round(100/this.getTotalItems()*1e3)/1e3,t=0;t<=this.getTotalItems();){if(Math.round(e*t*1e3)/1e3===-this.getContainerPosition())return t;t++}},goToItem:function(t){var e,r,s,o;return r=this,s=r.querySelector(".paper-carousel_wrapper"),e=Math.round(100/this.getTotalItems()*1e3)/1e3,o=Math.round(t*-e*1e3)/1e3,t<this.getTotalItems()&&t>=0&&(s.style.transform="translateX("+o+"%)"),this._setActiveDot(this.getCurrentPage()),this._setDisabledControls()},goToNextItem:function(){var t;if(t=Math.round(100/this.getTotalItems()*1e3)/1e3,this.getContainerPosition()>-(this.getTotalItems()-this.items()-1)*t-5)return this.goToItem(this.getCurrentItem()+1)},goToPrevItem:function(){var t;if(t=Math.round(100/this.getTotalItems()*1e3)/1e3,this.getContainerPosition()<-5)return this.goToItem(this.getCurrentItem()-1)},getCurrentPage:function(){var t,e,r,s,o;for(t=Math.round(100/this.getTotalItems()*1e3)/1e3,o=t*this.items(),s=0;s<this.getPages().length;){if(r=this.getPages()[s],e=parseFloat(this.getCurrentItem())+parseFloat(this.items()),e>=this.getTotalItems())return this.goToPage(this.getTotalPages()-1),this.getTotalPages()-1;if(r.indexOf(this.getCurrentItem())!==-1)return s;s++}},goToPage:function(t){var e,r,s,o,i,a;return r=this,s=r.querySelector(".paper-carousel_wrapper"),e=Math.round(100/this.getTotalItems()*1e3)/1e3,a=(this.items()-this.getPages()[t].length)*e,i=-e*this.items(),o=Math.round(1e3*(t*i+a))/1e3,t<this.getTotalPages()&&t>=0&&(s.style.transform="translateX("+o+"%)"),this._setActiveDot(t),this._setDisabledControls()},goToNextPage:function(){var t;if(t=Math.round(100/this.getTotalItems()*1e3)/1e3,this.getContainerPosition()>-(this.getTotalItems()-this.items()-1)*t-5)return this.goToPage(this.getCurrentPage()+1)},goToPrevPage:function(){var t;if(t=Math.round(100/this.getTotalItems()*1e3)/1e3,this.getContainerPosition()<-5)return this.goToPage(this.getCurrentPage()-1)},_setContainerSize:function(){var t,e,r,s,o,i,a,n,l;for(i=this,n=i.querySelector(".paper-carousel_wrapper"),a=i.getBoundingClientRect(),r=a.width*this.getTotalItems()/this.items(),e=Math.round(100/this.getTotalItems()*1e4)/1e4,l=n.children,s=0,o=l.length;s<o;s++)t=l[s],"template"!==t.localName&&(t.style.width=e+"%");return n.style.minWidth=r+"px"},_setActiveDot:function(t){var e,r,s,o;for(o=this,r=o.querySelectorAll(".paper-carousel_dot"),e=o.querySelector(".paper-carousel_dot-line"),s=0;s<r.length;)s===parseInt(t)?r[t].classList.add("active"):r[s].classList.remove("active"),s++;if(e)return e.style.transform="translateX("+t+"00%)"},_printControls:function(){var t,e,r,s,o,i,a,n;if(s=this,r=1,"false"!==s.getAttribute("controls")&&s.tpages!==this.items())return s.querySelector(".paper-carousel_controls")&&s.querySelector(".paper-carousel_controls").remove(),t=document.createElement("div"),t.classList.add("paper-carousel_controls"),e=document.createElement("div"),e.classList.add("paper-carousel_controls_wrapper"),o=document.createElement("a"),i=document.createElement("iron-icon"),i.setAttribute("icon","image:navigate-next"),a=document.createElement("a"),n=document.createElement("iron-icon"),n.setAttribute("icon","image:navigate-before"),o.setAttribute("href",""),o.classList.add("paper-carousel_controls_arrow-next"),a.setAttribute("href",""),a.classList.add("paper-carousel_controls_arrow-prev"),o.addEventListener("click",function(t){return t.preventDefault()}),a.addEventListener("click",function(t){return t.preventDefault()}),s.listen(o,"tap","goToNextItem"),s.listen(a,"tap","goToPrevItem"),Polymer.dom(o).appendChild(i),Polymer.dom(a).appendChild(n),Polymer.dom(t).appendChild(e),Polymer.dom(e).appendChild(a),Polymer.dom(e).appendChild(o),this.getTotalPages()>1&&Polymer.dom(s.root).appendChild(t),this._setDisabledControls()},_setDisabledControls:function(t){var e,r,s,o;if(o=this,s=Math.round(100/this.getTotalItems()*1e3)/1e3,e=o.querySelector(".paper-carousel_controls_arrow-prev"),r=o.querySelector(".paper-carousel_controls_arrow-next"),null!==r&&null!==e)return this.getContainerPosition()>-5?e.classList.add("paper-carousel_controls_arrow--disabled"):e.classList.remove("paper-carousel_controls_arrow--disabled"),this.getContainerPosition()<-(this.getTotalItems()-this.items()-1)*s-5?r.classList.add("paper-carousel_controls_arrow--disabled"):r.classList.remove("paper-carousel_controls_arrow--disabled")},_printDots:function(){var t,e,r,s,o,i,a;if(a=this,i=1,"false"!==a.getAttribute("dots")&&(s=document.createElement("div"),s.classList.add("paper-carousel_dots"),o=document.createElement("ul"),o.classList.add("paper-carousel_dots_wrapper"),Polymer.dom(s).appendChild(o),a.tpages!==this.items())){for(a.tpages=this.items(),a.querySelector(".paper-carousel_dots")&&a.querySelector(".paper-carousel_dots").remove();i<=this.getTotalPages();)e=document.createElement("li"),e.classList.add("paper-carousel_dot"),r=document.createElement("a"),r.setAttribute("href",""),r.setAttribute("data-rel",i-1),a.clickDotsEvent=function(t){var e;return e=t.target.getAttribute("data-rel"),this.goToPage(e)},r.addEventListener("click",function(t){return t.preventDefault()}),a.listen(r,"tap","clickDotsEvent"),this._dotText()===!0&&(r.textContent=i),t=document.createElement("li"),t.classList.add("paper-carousel_dot-line"),Polymer.dom(e).appendChild(r),Polymer.dom(o).appendChild(e),i===this.getTotalPages()&&Polymer.dom(o).appendChild(t),i++;return this.getTotalPages()>1&&Polymer.dom(a.root).appendChild(s),this._setActiveDot(this.getCurrentPage())}},_getDragState:function(t){var e,r,s,o,i,a,n,l,u,h,c,g,d,m,p,f,P,T;switch(l=this,u=l.querySelector(".paper-carousel_wrapper"),h=u.getBoundingClientRect(),c=Math.round(100*t.detail.dx/h.width*1e3)/1e3,i=Math.round(100/this.getTotalItems()*1e3)/1e3,n=Math.round(i*(this.getTotalItems()-this.items())*1e3)/1e3,s=0,T=t.detail.dx,t.detail.state){case"start":return l.startTime=(new Date).getTime(),l.dragPosition=this.getContainerPosition(),u.style.transitionDuration="0s";case"track":if(d=Math.round(1e3*(l.dragPosition+c))/1e3,d=Math.min(d,0),d=Math.max(d,-n),T>30||T<-30)return u.style.transform="translateX("+d+"%)";break;case"end":if(s=(new Date).getTime(),P=s-l.startTime,a=Math.max(Math.min(P,500),100),o=0,this.getContainerPosition()>-5&&(a=500),this.getContainerPosition()<-(this.getTotalItems()-this.items())*i+5&&(a=500),T<30&&T>-30&&(a=500),u.style.transitionDuration=a+"ms",l.resetTransition=function(){return u.style.transitionDuration=""},l.listen(u,"transitionend","resetTransition"),T>30||T<-30){for(m=[];o<this.getTotalItems();)p=-Math.round(i*o*1e3)/1e3,e=-Math.round(i*(o+1)*1e3)/1e3,g=Math.round(1e3*(p-e))/1e3,r=e+g/2,f=p-g/2,c<0&&P<150&&this.getContainerPosition()<p&&this.getContainerPosition()>=e&&this.goToItem(o+1),c>0&&P<150&&this.getContainerPosition()<p&&this.getContainerPosition()>=e&&this.goToItem(o),this.getContainerPosition()<p&&this.getContainerPosition()>=r&&this.goToItem(o),this.getContainerPosition()<f&&this.getContainerPosition()>=e&&this.goToItem(o+1),m.push(o++);return m}}},_onDrag:function(){var t,e;return t=this,e=t.querySelector(".paper-carousel_wrapper"),t.listen(this.$$(".paper-carousel_wrapper"),"track","_getDragState")},ready:function(){},attached:function(){return this._onDrag()},_onResize:function(){return this._setContainerSize(),this._printControls(),this._printDots()}})}).call(this);</script>
-</dom-module><dom-module id="test-app" assetpath="./">
+</dom-module><dom-module id="iron-image" assetpath="../bower_components/iron-image/">
+  <template>
+    <style>
+      :host {
+        display: inline-block;
+        overflow: hidden;
+        position: relative;
+      }
+
+      #sizedImgDiv {
+        @apply(--layout-fit);
+
+        display: none;
+      }
+
+      #img {
+        display: block;
+        width: var(--iron-image-width, auto);
+        height: var(--iron-image-height, auto);
+      }
+
+      :host([sizing]) #sizedImgDiv {
+        display: block;
+      }
+
+      :host([sizing]) #img {
+        display: none;
+      }
+
+      #placeholder {
+        @apply(--layout-fit);
+
+        background-color: inherit;
+        opacity: 1;
+
+        @apply(--iron-image-placeholder);
+      }
+
+      #placeholder.faded-out {
+        transition: opacity 0.5s linear;
+        opacity: 0;
+      }
+    </style>
+
+    <div id="sizedImgDiv" role="img" hidden$="[[_computeImgDivHidden(sizing)]]" aria-hidden$="[[_computeImgDivARIAHidden(alt)]]" aria-label$="[[_computeImgDivARIALabel(alt, src)]]"></div>
+    <img id="img" alt$="[[alt]]" hidden$="[[_computeImgHidden(sizing)]]">
+    <div id="placeholder" hidden$="[[_computePlaceholderHidden(preload, fade, loading, loaded)]]" class$="[[_computePlaceholderClassName(preload, fade, loading, loaded)]]"></div>
+  </template>
+
+  <script>Polymer({is:"iron-image",properties:{src:{observer:"_srcChanged",type:String,value:""},alt:{type:String,value:null},preventLoad:{type:Boolean,value:!1,observer:"_preventLoadChanged"},sizing:{type:String,value:null,reflectToAttribute:!0},position:{type:String,value:"center"},preload:{type:Boolean,value:!1},placeholder:{type:String,value:null,observer:"_placeholderChanged"},fade:{type:Boolean,value:!1},loaded:{notify:!0,readOnly:!0,type:Boolean,value:!1},loading:{notify:!0,readOnly:!0,type:Boolean,value:!1},error:{notify:!0,readOnly:!0,type:Boolean,value:!1},width:{observer:"_widthChanged",type:Number,value:null},height:{observer:"_heightChanged",type:Number,value:null}},observers:["_transformChanged(sizing, position)"],ready:function(){var e=this.$.img;e.onload=function(){this.$.img.src===this._resolveSrc(this.src)&&(this._setLoading(!1),this._setLoaded(!0),this._setError(!1))}.bind(this),e.onerror=function(){this.$.img.src===this._resolveSrc(this.src)&&(this._reset(),this._setLoading(!1),this._setLoaded(!1),this._setError(!0))}.bind(this),this._resolvedSrc=""},_load:function(e){e?this.$.img.src=e:this.$.img.removeAttribute("src"),this.$.sizedImgDiv.style.backgroundImage=e?'url("'+e+'")':"",this._setLoading(!!e),this._setLoaded(!1),this._setError(!1)},_reset:function(){this.$.img.removeAttribute("src"),this.$.sizedImgDiv.style.backgroundImage="",this._setLoading(!1),this._setLoaded(!1),this._setError(!1)},_computePlaceholderHidden:function(){return!this.preload||!this.fade&&!this.loading&&this.loaded},_computePlaceholderClassName:function(){return this.preload&&this.fade&&!this.loading&&this.loaded?"faded-out":""},_computeImgDivHidden:function(){return!this.sizing},_computeImgDivARIAHidden:function(){return""===this.alt?"true":void 0},_computeImgDivARIALabel:function(){if(null!==this.alt)return this.alt;if(""===this.src)return"";var e=new URL(this._resolveSrc(this.src)).pathname.split("/");return e[e.length-1]},_computeImgHidden:function(){return!!this.sizing},_widthChanged:function(){this.style.width=isNaN(this.width)?this.width:this.width+"px"},_heightChanged:function(){this.style.height=isNaN(this.height)?this.height:this.height+"px"},_preventLoadChanged:function(){this.preventLoad||this.loaded||(this._reset(),this._load(this.src))},_srcChanged:function(e,t){var i=this._resolveSrc(e);i!==this._resolvedSrc&&(this._resolvedSrc=i,this._reset(),this.preventLoad||this._load(e))},_placeholderChanged:function(){this.$.placeholder.style.backgroundImage=this.placeholder?'url("'+this.placeholder+'")':""},_transformChanged:function(){var e=this.$.sizedImgDiv.style,t=this.$.placeholder.style;e.backgroundSize=t.backgroundSize=this.sizing,e.backgroundPosition=t.backgroundPosition=this.sizing?this.position:"",e.backgroundRepeat=t.backgroundRepeat=this.sizing?"no-repeat":""},_resolveSrc:function(e){var t=this.ownerDocument.baseURI;return new URL(Polymer.ResolveUrl.resolveUrl(e,t),t).href}});</script>
+</dom-module>
+<script>Polymer.PaperSpinnerBehavior={listeners:{animationend:"__reset",webkitAnimationEnd:"__reset"},properties:{active:{type:Boolean,value:!1,reflectToAttribute:!0,observer:"__activeChanged"},alt:{type:String,value:"loading",observer:"__altChanged"},__coolingDown:{type:Boolean,value:!1}},__computeContainerClasses:function(e,t){return[e||t?"active":"",t?"cooldown":""].join(" ")},__activeChanged:function(e,t){this.__setAriaHidden(!e),this.__coolingDown=!e&&t},__altChanged:function(e){e===this.getPropertyInfo("alt").value?this.alt=this.getAttribute("aria-label")||e:(this.__setAriaHidden(""===e),this.setAttribute("aria-label",e))},__setAriaHidden:function(e){var t="aria-hidden";e?this.setAttribute(t,"true"):this.removeAttribute(t)},__reset:function(){this.active=!1,this.__coolingDown=!1}};</script><dom-module id="paper-spinner-styles" assetpath="../bower_components/paper-spinner/">
+  <template>
+    <style>
+      /*
+      /**************************/
+      /* STYLES FOR THE SPINNER */
+      /**************************/
+
+      /*
+       * Constants:
+       *      ARCSIZE     = 270 degrees (amount of circle the arc takes up)
+       *      ARCTIME     = 1333ms (time it takes to expand and contract arc)
+       *      ARCSTARTROT = 216 degrees (how much the start location of the arc
+       *                                should rotate each time, 216 gives us a
+       *                                5 pointed star shape (it's 360/5 * 3).
+       *                                For a 7 pointed star, we might do
+       *                                360/7 * 3 = 154.286)
+       *      SHRINK_TIME = 400ms
+       */
+
+      :host {
+        display: inline-block;
+        position: relative;
+        width: 28px;
+        height: 28px;
+
+        /* 360 * ARCTIME / (ARCSTARTROT + (360-ARCSIZE)) */
+        --paper-spinner-container-rotation-duration: 1568ms;
+
+        /* ARCTIME */
+        --paper-spinner-expand-contract-duration: 1333ms;
+
+        /* 4 * ARCTIME */
+        --paper-spinner-full-cycle-duration: 5332ms;
+
+        /* SHRINK_TIME */
+        --paper-spinner-cooldown-duration: 400ms;
+      }
+
+      #spinnerContainer {
+        width: 100%;
+        height: 100%;
+
+        /* The spinner does not have any contents that would have to be
+         * flipped if the direction changes. Always use ltr so that the
+         * style works out correctly in both cases. */
+        direction: ltr;
+      }
+
+      #spinnerContainer.active {
+        -webkit-animation: container-rotate var(--paper-spinner-container-rotation-duration) linear infinite;
+        animation: container-rotate var(--paper-spinner-container-rotation-duration) linear infinite;
+      }
+
+      @-webkit-keyframes container-rotate {
+        to { -webkit-transform: rotate(360deg) }
+      }
+
+      @keyframes container-rotate {
+        to { transform: rotate(360deg) }
+      }
+
+      .spinner-layer {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        white-space: nowrap;
+        border-color: var(--paper-spinner-color, --google-blue-500);
+      }
+
+      .layer-1 {
+        border-color: var(--paper-spinner-layer-1-color, --google-blue-500);
+      }
+
+      .layer-2 {
+        border-color: var(--paper-spinner-layer-2-color, --google-red-500);
+      }
+
+      .layer-3 {
+        border-color: var(--paper-spinner-layer-3-color, --google-yellow-500);
+      }
+
+      .layer-4 {
+        border-color: var(--paper-spinner-layer-4-color, --google-green-500);
+      }
+
+      /**
+       * IMPORTANT NOTE ABOUT CSS ANIMATION PROPERTIES (keanulee):
+       *
+       * iOS Safari (tested on iOS 8.1) does not handle animation-delay very well - it doesn't
+       * guarantee that the animation will start _exactly_ after that value. So we avoid using
+       * animation-delay and instead set custom keyframes for each color (as layer-2undant as it
+       * seems).
+       */
+      .active .spinner-layer {
+        -webkit-animation-name: fill-unfill-rotate;
+        -webkit-animation-duration: var(--paper-spinner-full-cycle-duration);
+        -webkit-animation-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1);
+        -webkit-animation-iteration-count: infinite;
+        animation-name: fill-unfill-rotate;
+        animation-duration: var(--paper-spinner-full-cycle-duration);
+        animation-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1);
+        animation-iteration-count: infinite;
+        opacity: 1;
+      }
+
+      .active .spinner-layer.layer-1 {
+        -webkit-animation-name: fill-unfill-rotate, layer-1-fade-in-out;
+        animation-name: fill-unfill-rotate, layer-1-fade-in-out;
+      }
+
+      .active .spinner-layer.layer-2 {
+        -webkit-animation-name: fill-unfill-rotate, layer-2-fade-in-out;
+        animation-name: fill-unfill-rotate, layer-2-fade-in-out;
+      }
+
+      .active .spinner-layer.layer-3 {
+        -webkit-animation-name: fill-unfill-rotate, layer-3-fade-in-out;
+        animation-name: fill-unfill-rotate, layer-3-fade-in-out;
+      }
+
+      .active .spinner-layer.layer-4 {
+        -webkit-animation-name: fill-unfill-rotate, layer-4-fade-in-out;
+        animation-name: fill-unfill-rotate, layer-4-fade-in-out;
+      }
+
+      @-webkit-keyframes fill-unfill-rotate {
+        12.5% { -webkit-transform: rotate(135deg) } /* 0.5 * ARCSIZE */
+        25%   { -webkit-transform: rotate(270deg) } /* 1   * ARCSIZE */
+        37.5% { -webkit-transform: rotate(405deg) } /* 1.5 * ARCSIZE */
+        50%   { -webkit-transform: rotate(540deg) } /* 2   * ARCSIZE */
+        62.5% { -webkit-transform: rotate(675deg) } /* 2.5 * ARCSIZE */
+        75%   { -webkit-transform: rotate(810deg) } /* 3   * ARCSIZE */
+        87.5% { -webkit-transform: rotate(945deg) } /* 3.5 * ARCSIZE */
+        to    { -webkit-transform: rotate(1080deg) } /* 4   * ARCSIZE */
+      }
+
+      @keyframes fill-unfill-rotate {
+        12.5% { transform: rotate(135deg) } /* 0.5 * ARCSIZE */
+        25%   { transform: rotate(270deg) } /* 1   * ARCSIZE */
+        37.5% { transform: rotate(405deg) } /* 1.5 * ARCSIZE */
+        50%   { transform: rotate(540deg) } /* 2   * ARCSIZE */
+        62.5% { transform: rotate(675deg) } /* 2.5 * ARCSIZE */
+        75%   { transform: rotate(810deg) } /* 3   * ARCSIZE */
+        87.5% { transform: rotate(945deg) } /* 3.5 * ARCSIZE */
+        to    { transform: rotate(1080deg) } /* 4   * ARCSIZE */
+      }
+
+      @-webkit-keyframes layer-1-fade-in-out {
+        0% { opacity: 1 }
+        25% { opacity: 1 }
+        26% { opacity: 0 }
+        89% { opacity: 0 }
+        90% { opacity: 1 }
+        to { opacity: 1 }
+      }
+
+      @keyframes layer-1-fade-in-out {
+        0% { opacity: 1 }
+        25% { opacity: 1 }
+        26% { opacity: 0 }
+        89% { opacity: 0 }
+        90% { opacity: 1 }
+        to { opacity: 1 }
+      }
+
+      @-webkit-keyframes layer-2-fade-in-out {
+        0% { opacity: 0 }
+        15% { opacity: 0 }
+        25% { opacity: 1 }
+        50% { opacity: 1 }
+        51% { opacity: 0 }
+        to { opacity: 0 }
+      }
+
+      @keyframes layer-2-fade-in-out {
+        0% { opacity: 0 }
+        15% { opacity: 0 }
+        25% { opacity: 1 }
+        50% { opacity: 1 }
+        51% { opacity: 0 }
+        to { opacity: 0 }
+      }
+
+      @-webkit-keyframes layer-3-fade-in-out {
+        0% { opacity: 0 }
+        40% { opacity: 0 }
+        50% { opacity: 1 }
+        75% { opacity: 1 }
+        76% { opacity: 0 }
+        to { opacity: 0 }
+      }
+
+      @keyframes layer-3-fade-in-out {
+        0% { opacity: 0 }
+        40% { opacity: 0 }
+        50% { opacity: 1 }
+        75% { opacity: 1 }
+        76% { opacity: 0 }
+        to { opacity: 0 }
+      }
+
+      @-webkit-keyframes layer-4-fade-in-out {
+        0% { opacity: 0 }
+        65% { opacity: 0 }
+        75% { opacity: 1 }
+        90% { opacity: 1 }
+        to { opacity: 0 }
+      }
+
+      @keyframes layer-4-fade-in-out {
+        0% { opacity: 0 }
+        65% { opacity: 0 }
+        75% { opacity: 1 }
+        90% { opacity: 1 }
+        to { opacity: 0 }
+      }
+
+      .circle-clipper {
+        display: inline-block;
+        position: relative;
+        width: 50%;
+        height: 100%;
+        overflow: hidden;
+        border-color: inherit;
+      }
+
+      /**
+       * Patch the gap that appear between the two adjacent div.circle-clipper while the
+       * spinner is rotating (appears on Chrome 50, Safari 9.1.1, and Edge).
+       */
+      .spinner-layer::after {
+        left: 45%;
+        width: 10%;
+        border-top-style: solid;
+      }
+
+      .spinner-layer::after,
+      .circle-clipper::after {
+        content: '';
+        box-sizing: border-box;
+        position: absolute;
+        top: 0;
+        border-width: var(--paper-spinner-stroke-width, 3px);
+        border-color: inherit;
+        border-radius: 50%;
+      }
+
+      .circle-clipper::after {
+        bottom: 0;
+        width: 200%;
+        border-style: solid;
+        border-bottom-color: transparent !important;
+      }
+
+      .circle-clipper.left::after {
+        left: 0;
+        border-right-color: transparent !important;
+        -webkit-transform: rotate(129deg);
+        transform: rotate(129deg);
+      }
+
+      .circle-clipper.right::after {
+        left: -100%;
+        border-left-color: transparent !important;
+        -webkit-transform: rotate(-129deg);
+        transform: rotate(-129deg);
+      }
+
+      .active .gap-patch::after,
+      .active .circle-clipper::after {
+        -webkit-animation-duration: var(--paper-spinner-expand-contract-duration);
+        -webkit-animation-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1);
+        -webkit-animation-iteration-count: infinite;
+        animation-duration: var(--paper-spinner-expand-contract-duration);
+        animation-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1);
+        animation-iteration-count: infinite;
+      }
+
+      .active .circle-clipper.left::after {
+        -webkit-animation-name: left-spin;
+        animation-name: left-spin;
+      }
+
+      .active .circle-clipper.right::after {
+        -webkit-animation-name: right-spin;
+        animation-name: right-spin;
+      }
+
+      @-webkit-keyframes left-spin {
+        0% { -webkit-transform: rotate(130deg) }
+        50% { -webkit-transform: rotate(-5deg) }
+        to { -webkit-transform: rotate(130deg) }
+      }
+
+      @keyframes left-spin {
+        0% { transform: rotate(130deg) }
+        50% { transform: rotate(-5deg) }
+        to { transform: rotate(130deg) }
+      }
+
+      @-webkit-keyframes right-spin {
+        0% { -webkit-transform: rotate(-130deg) }
+        50% { -webkit-transform: rotate(5deg) }
+        to { -webkit-transform: rotate(-130deg) }
+      }
+
+      @keyframes right-spin {
+        0% { transform: rotate(-130deg) }
+        50% { transform: rotate(5deg) }
+        to { transform: rotate(-130deg) }
+      }
+
+      #spinnerContainer.cooldown {
+        -webkit-animation: container-rotate var(--paper-spinner-container-rotation-duration) linear infinite, fade-out var(--paper-spinner-cooldown-duration) cubic-bezier(0.4, 0.0, 0.2, 1);
+        animation: container-rotate var(--paper-spinner-container-rotation-duration) linear infinite, fade-out var(--paper-spinner-cooldown-duration) cubic-bezier(0.4, 0.0, 0.2, 1);
+      }
+
+      @-webkit-keyframes fade-out {
+        0% { opacity: 1 }
+        to { opacity: 0 }
+      }
+
+      @keyframes fade-out {
+        0% { opacity: 1 }
+        to { opacity: 0 }
+      }
+    </style>
+  </template>
+</dom-module>
+<dom-module id="paper-spinner" assetpath="../bower_components/paper-spinner/">
+  <template strip-whitespace="">
+    <style include="paper-spinner-styles"></style>
+
+    <div id="spinnerContainer" class-name="[[__computeContainerClasses(active, __coolingDown)]]">
+      <div class="spinner-layer layer-1">
+        <div class="circle-clipper left"></div>
+        <div class="circle-clipper right"></div>
+      </div>
+
+      <div class="spinner-layer layer-2">
+        <div class="circle-clipper left"></div>
+        <div class="circle-clipper right"></div>
+      </div>
+
+      <div class="spinner-layer layer-3">
+        <div class="circle-clipper left"></div>
+        <div class="circle-clipper right"></div>
+      </div>
+
+      <div class="spinner-layer layer-4">
+        <div class="circle-clipper left"></div>
+        <div class="circle-clipper right"></div>
+      </div>
+    </div>
+  </template>
+
+  <script>Polymer({is:"paper-spinner",behaviors:[Polymer.PaperSpinnerBehavior]});</script>
+</dom-module>
+<dom-module id="test-app" assetpath="./">
     <template>
     <style>
       :host {
         display: block;
-       
+       --iron-image-height:50vh;
+       --iron-image-width:auto;
       }
 .first_half{
   height: 50vh;
   background-color: #fff;
+    display: flex;
+  justify-content: center;
+    align-items: center;
 }
 .second_half{
   height:50vh;
 }
 
+.overlay{
+    height: inherit;
+    display: flex;
+    position: absolute;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    background: #fff;
+}
+img{
+background-size: contain;
+}
     </style>
    <div class="first_half"> 
-    <paper-carousel items="1" dottext="false" style="width: 100%">
-    <img src="../image/bg.jpg" draggable="false" style="height: 50vh">
+    <paper-carousel items="1" dottext="false">
+    <iron-image placeholder="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSgBBwcHCggKEwoKEygaFhooKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKP/AABEIAAEAAQMBEQACEQEDEQH/xAGiAAABBQEBAQEBAQAAAAAAAAAAAQIDBAUGBwgJCgsQAAIBAwMCBAMFBQQEAAABfQECAwAEEQUSITFBBhNRYQcicRQygZGhCCNCscEVUtHwJDNicoIJChYXGBkaJSYnKCkqNDU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6g4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2drh4uPk5ebn6Onq8fLz9PX29/j5+gEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoLEQACAQIEBAMEBwUEBAABAncAAQIDEQQFITEGEkFRB2FxEyIygQgUQpGhscEJIzNS8BVictEKFiQ04SXxFxgZGiYnKCkqNTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqCg4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2dri4+Tl5ufo6ery8/T19vf4+fr/2gAMAwEAAhEDEQA/APleWR5pXkldnkclmZjksT1JPc0bDbvqz//Z" src="../image/bg.jpg" preload="" fade="" draggable="false" alt="wedding image"></iron-image>
     
     
 </paper-carousel>
@@ -958,21 +1386,23 @@ n&&e.updateNativeStyleProperties(document.documentElement,this.customStyle)}};re
 
 
     <div class="second_half"> 
-
-      <geo-location high-accuracy="" latitude="{{lat}}" longitude="{{lng}}"></geo-location>
-                <google-map-directions map="[[map]]" start-address="{{lat}}, {{lng}}" end-address="Ernakulam, 8081Kerala" travel-mode="DRIVING">
-</google-map-directions>
- 
-     <google-map map="{{map}}" latitude="[[lat]]" longitude="[[lng]]" fit-to-markers="">
-
-     </google-map>
+        <div class="overlay" hidden$="[[!loaded]]">
+<paper-spinner active="[[loaded]]"></paper-spinner>
+            
+        </div>
+               <geo-location high-accuracy="" latitude="{{lat}}" longitude="{{lng}}">
+               </geo-location>
+                <google-map-directions map="[[map]]" on-google-map-response="_loadedd" start-address="{{lat}}, {{lng}}" end-address="Ernakulam, 8081Kerala" travel-mode="DRIVING">
+                </google-map-directions>
+                <google-map map="{{map}}" latitude="[[lat]]" longitude="[[lng]]" fit-to-markers="">
+                </google-map>
 
 
    </div>
   
   </template>
 
-    <script>Polymer({is:"test-app",properties:{prop1:{type:String,value:"test-app"}}});</script>
+    <script>Polymer({is:"test-app",properties:{prop1:{type:String,value:"test-app"},loaded:{type:Boolean,value:!0,notify:!1}},_loadedd:function(){this.loaded=!1}});</script>
 </dom-module><script>Polymer.IronScrollTargetBehavior={properties:{scrollTarget:{type:Object,value:function(){return this._defaultScrollTarget}}},observers:["_scrollTargetChanged(scrollTarget, isAttached)"],_shouldHaveListener:!0,_scrollTargetChanged:function(t,l){this._oldScrollTarget&&(this._toggleScrollListener(!1,this._oldScrollTarget),this._oldScrollTarget=null),l&&("document"===t?this.scrollTarget=this._doc:"string"==typeof t?this.scrollTarget=this.domHost?this.domHost.$[t]:Polymer.dom(this.ownerDocument).querySelector("#"+t):this._isValidScrollTarget()&&(this._boundScrollHandler=this._boundScrollHandler||this._scrollHandler.bind(this),this._oldScrollTarget=t,this._toggleScrollListener(this._shouldHaveListener,t)))},_scrollHandler:function(){},get _defaultScrollTarget(){return this._doc},get _doc(){return this.ownerDocument.documentElement},get _scrollTop(){return this._isValidScrollTarget()?this.scrollTarget===this._doc?window.pageYOffset:this.scrollTarget.scrollTop:0},get _scrollLeft(){return this._isValidScrollTarget()?this.scrollTarget===this._doc?window.pageXOffset:this.scrollTarget.scrollLeft:0},set _scrollTop(t){this.scrollTarget===this._doc?window.scrollTo(window.pageXOffset,t):this._isValidScrollTarget()&&(this.scrollTarget.scrollTop=t)},set _scrollLeft(t){this.scrollTarget===this._doc?window.scrollTo(t,window.pageYOffset):this._isValidScrollTarget()&&(this.scrollTarget.scrollLeft=t)},scroll:function(t,l){this.scrollTarget===this._doc?window.scrollTo(t,l):this._isValidScrollTarget()&&(this.scrollTarget.scrollLeft=t,this.scrollTarget.scrollTop=l)},get _scrollTargetWidth(){return this._isValidScrollTarget()?this.scrollTarget===this._doc?window.innerWidth:this.scrollTarget.offsetWidth:0},get _scrollTargetHeight(){return this._isValidScrollTarget()?this.scrollTarget===this._doc?window.innerHeight:this.scrollTarget.offsetHeight:0},_isValidScrollTarget:function(){return this.scrollTarget instanceof HTMLElement},_toggleScrollListener:function(t,l){if(this._boundScrollHandler){var e=l===this._doc?window:l;t?e.addEventListener("scroll",this._boundScrollHandler):e.removeEventListener("scroll",this._boundScrollHandler)}},toggleScrollListener:function(t){this._shouldHaveListener=t,this._toggleScrollListener(t,this.scrollTarget)}};</script><script>Polymer.AppLayout=Polymer.AppLayout||{},Polymer.AppLayout._scrollEffects=Polymer.AppLayout._scrollEffects||{},Polymer.AppLayout.scrollTimingFunction=function(o,l,e,r){return o/=r,-e*o*(o-2)+l},Polymer.AppLayout.registerEffect=function(o,l){if(null!=Polymer.AppLayout._scrollEffects[o])throw new Error("effect `"+o+"` is already registered.");Polymer.AppLayout._scrollEffects[o]=l},Polymer.AppLayout.scroll=function(o){o=o||{};var l=document.documentElement,e=o.target||l,r="scrollBehavior"in e.style&&e.scroll,t="app-layout-silent-scroll",s=o.top||0,c=o.left||0,i=e===l?window.scrollTo:function(o,l){e.scrollLeft=o,e.scrollTop=l};if("smooth"===o.behavior)if(r)e.scroll(o);else{var n=Polymer.AppLayout.scrollTimingFunction,a=Date.now(),p=e===l?window.pageYOffset:e.scrollTop,u=e===l?window.pageXOffset:e.scrollLeft,y=s-p,f=c-u,m=300,L=function o(){var l=Date.now(),e=l-a;e<m?(i(n(e,u,f,m),n(e,p,y,m)),requestAnimationFrame(o)):i(c,s)}.bind(this);L()}else"silent"===o.behavior?(l.classList.add(t),clearInterval(Polymer.AppLayout._scrollTimer),Polymer.AppLayout._scrollTimer=setTimeout(function(){l.classList.remove(t),Polymer.AppLayout._scrollTimer=null},100),i(c,s)):i(c,s)};</script><script>Polymer.AppScrollEffectsBehavior=[Polymer.IronScrollTargetBehavior,{properties:{effects:{type:String},effectsConfig:{type:Object,value:function(){return{}}},disabled:{type:Boolean,reflectToAttribute:!0,value:!1},threshold:{type:Number,value:0},thresholdTriggered:{type:Boolean,notify:!0,readOnly:!0,reflectToAttribute:!0}},observers:["_effectsChanged(effects, effectsConfig, isAttached)"],_updateScrollState:function(){},isOnScreen:function(){return!1},isContentBelow:function(){return!1},_effectsRunFn:null,_effects:null,get _clampedScrollTop(){return Math.max(0,this._scrollTop)},detached:function(){this._tearDownEffects()},createEffect:function(t,e){var n=Polymer.AppLayout._scrollEffects[t];if(!n)throw new ReferenceError(this._getUndefinedMsg(t));var f=this._boundEffect(n,e||{});return f.setUp(),f},_effectsChanged:function(t,e,n){this._tearDownEffects(),""!==t&&n&&(t.split(" ").forEach(function(t){var n;""!==t&&((n=Polymer.AppLayout._scrollEffects[t])?this._effects.push(this._boundEffect(n,e[t])):console.warn(this._getUndefinedMsg(t)))},this),this._setUpEffect())},_layoutIfDirty:function(){return this.offsetWidth},_boundEffect:function(t,e){e=e||{};var n=parseFloat(e.startsAt||0),f=parseFloat(e.endsAt||1),s=f-n,r=function(){},o=0===n&&1===f?t.run:function(e,f){t.run.call(this,Math.max(0,(e-n)/s),f)};return{setUp:t.setUp?t.setUp.bind(this,e):r,run:t.run?o.bind(this):r,tearDown:t.tearDown?t.tearDown.bind(this):r}},_setUpEffect:function(){this.isAttached&&this._effects&&(this._effectsRunFn=[],this._effects.forEach(function(t){t.setUp()!==!1&&this._effectsRunFn.push(t.run)},this))},_tearDownEffects:function(){this._effects&&this._effects.forEach(function(t){t.tearDown()}),this._effectsRunFn=[],this._effects=[]},_runEffects:function(t,e){this._effectsRunFn&&this._effectsRunFn.forEach(function(n){n(t,e)})},_scrollHandler:function(){if(!this.disabled){var t=this._clampedScrollTop;this._updateScrollState(t),this.threshold>0&&this._setThresholdTriggered(t>=this.threshold)}},_getDOMRef:function(t){console.warn("_getDOMRef","`"+t+"` is undefined")},_getUndefinedMsg:function(t){return"Scroll effect `"+t+"` is undefined. Did you forget to import app-layout/app-scroll-effects/effects/"+t+".html ?"}}];</script><script>!function(){"use strict";function e(e,t){var n="";if(e){var i=e.toLowerCase();" "===i||v.test(i)?n="space":f.test(i)?n="esc":1==i.length?t&&!u.test(i)||(n=i):n=c.test(i)?i.replace("arrow",""):"multiply"==i?"*":i}return n}function t(e){var t="";return e&&(e in o?t=o[e]:h.test(e)?(e=parseInt(e.replace("U+","0x"),16),t=String.fromCharCode(e).toLowerCase()):t=e.toLowerCase()),t}function n(e){var t="";return Number(e)&&(t=e>=65&&e<=90?String.fromCharCode(32+e):e>=112&&e<=123?"f"+(e-112):e>=48&&e<=57?String(e-48):e>=96&&e<=105?String(e-96):d[e]),t}function i(i,r){return i.key?e(i.key,r):i.detail&&i.detail.key?e(i.detail.key,r):t(i.keyIdentifier)||n(i.keyCode)||""}function r(e,t){var n=i(t,e.hasModifiers);return n===e.key&&(!e.hasModifiers||!!t.shiftKey==!!e.shiftKey&&!!t.ctrlKey==!!e.ctrlKey&&!!t.altKey==!!e.altKey&&!!t.metaKey==!!e.metaKey)}function s(e){return 1===e.length?{combo:e,key:e,event:"keydown"}:e.split("+").reduce(function(e,t){var n=t.split(":"),i=n[0],r=n[1];return i in y?(e[y[i]]=!0,e.hasModifiers=!0):(e.key=i,e.event=r||"keydown"),e},{combo:e.split(":").shift()})}function a(e){return e.trim().split(" ").map(function(e){return s(e)})}var o={"U+0008":"backspace","U+0009":"tab","U+001B":"esc","U+0020":"space","U+007F":"del"},d={8:"backspace",9:"tab",13:"enter",27:"esc",33:"pageup",34:"pagedown",35:"end",36:"home",32:"space",37:"left",38:"up",39:"right",40:"down",46:"del",106:"*"},y={shift:"shiftKey",ctrl:"ctrlKey",alt:"altKey",meta:"metaKey"},u=/[a-z0-9*]/,h=/U\+/,c=/^arrow/,v=/^space(bar)?/,f=/^escape$/;Polymer.IronA11yKeysBehavior={properties:{keyEventTarget:{type:Object,value:function(){return this}},stopKeyboardEventPropagation:{type:Boolean,value:!1},_boundKeyHandlers:{type:Array,value:function(){return[]}},_imperativeKeyBindings:{type:Object,value:function(){return{}}}},observers:["_resetKeyEventListeners(keyEventTarget, _boundKeyHandlers)"],keyBindings:{},registered:function(){this._prepKeyBindings()},attached:function(){this._listenKeyEventListeners()},detached:function(){this._unlistenKeyEventListeners()},addOwnKeyBinding:function(e,t){this._imperativeKeyBindings[e]=t,this._prepKeyBindings(),this._resetKeyEventListeners()},removeOwnKeyBindings:function(){this._imperativeKeyBindings={},this._prepKeyBindings(),this._resetKeyEventListeners()},keyboardEventMatchesKeys:function(e,t){for(var n=a(t),i=0;i<n.length;++i)if(r(n[i],e))return!0;return!1},_collectKeyBindings:function(){var e=this.behaviors.map(function(e){return e.keyBindings});return e.indexOf(this.keyBindings)===-1&&e.push(this.keyBindings),e},_prepKeyBindings:function(){this._keyBindings={},this._collectKeyBindings().forEach(function(e){for(var t in e)this._addKeyBinding(t,e[t])},this);for(var e in this._imperativeKeyBindings)this._addKeyBinding(e,this._imperativeKeyBindings[e]);for(var t in this._keyBindings)this._keyBindings[t].sort(function(e,t){var n=e[0].hasModifiers,i=t[0].hasModifiers;return n===i?0:n?-1:1})},_addKeyBinding:function(e,t){a(e).forEach(function(e){this._keyBindings[e.event]=this._keyBindings[e.event]||[],this._keyBindings[e.event].push([e,t])},this)},_resetKeyEventListeners:function(){this._unlistenKeyEventListeners(),this.isAttached&&this._listenKeyEventListeners()},_listenKeyEventListeners:function(){this.keyEventTarget&&Object.keys(this._keyBindings).forEach(function(e){var t=this._keyBindings[e],n=this._onKeyBindingEvent.bind(this,t);this._boundKeyHandlers.push([this.keyEventTarget,e,n]),this.keyEventTarget.addEventListener(e,n)},this)},_unlistenKeyEventListeners:function(){for(var e,t,n,i;this._boundKeyHandlers.length;)e=this._boundKeyHandlers.pop(),t=e[0],n=e[1],i=e[2],t.removeEventListener(n,i)},_onKeyBindingEvent:function(e,t){if(this.stopKeyboardEventPropagation&&t.stopPropagation(),!t.defaultPrevented)for(var n=0;n<e.length;n++){var i=e[n][0],s=e[n][1];if(r(i,t)&&(this._triggerKeyHandler(i,s,t),t.defaultPrevented))return}},_triggerKeyHandler:function(e,t,n){var i=Object.create(e);i.keyboardEvent=n;var r=new CustomEvent(e.event,{detail:i,cancelable:!0});this[t].call(this,r),r.defaultPrevented&&n.preventDefault()}}}();</script><script>Polymer.IronControlState={properties:{focused:{type:Boolean,value:!1,notify:!0,readOnly:!0,reflectToAttribute:!0},disabled:{type:Boolean,value:!1,notify:!0,observer:"_disabledChanged",reflectToAttribute:!0},_oldTabIndex:{type:Number},_boundFocusBlurHandler:{type:Function,value:function(){return this._focusBlurHandler.bind(this)}}},observers:["_changedControlState(focused, disabled)"],ready:function(){this.addEventListener("focus",this._boundFocusBlurHandler,!0),this.addEventListener("blur",this._boundFocusBlurHandler,!0)},_focusBlurHandler:function(e){if(e.target===this)this._setFocused("focus"===e.type);else if(!this.shadowRoot){var t=Polymer.dom(e).localTarget;this.isLightDescendant(t)||this.fire(e.type,{sourceEvent:e},{node:this,bubbles:e.bubbles,cancelable:e.cancelable})}},_disabledChanged:function(e,t){this.setAttribute("aria-disabled",e?"true":"false"),this.style.pointerEvents=e?"none":"",e?(this._oldTabIndex=this.tabIndex,this._setFocused(!1),this.tabIndex=-1,this.blur()):void 0!==this._oldTabIndex&&(this.tabIndex=this._oldTabIndex)},_changedControlState:function(){this._controlStateChanged&&this._controlStateChanged()}};</script><script>Polymer.IronButtonStateImpl={properties:{pressed:{type:Boolean,readOnly:!0,value:!1,reflectToAttribute:!0,observer:"_pressedChanged"},toggles:{type:Boolean,value:!1,reflectToAttribute:!0},active:{type:Boolean,value:!1,notify:!0,reflectToAttribute:!0},pointerDown:{type:Boolean,readOnly:!0,value:!1},receivedFocusFromKeyboard:{type:Boolean,readOnly:!0},ariaActiveAttribute:{type:String,value:"aria-pressed",observer:"_ariaActiveAttributeChanged"}},listeners:{down:"_downHandler",up:"_upHandler",tap:"_tapHandler"},observers:["_detectKeyboardFocus(focused)","_activeChanged(active, ariaActiveAttribute)"],keyBindings:{"enter:keydown":"_asyncClick","space:keydown":"_spaceKeyDownHandler","space:keyup":"_spaceKeyUpHandler"},_mouseEventRe:/^mouse/,_tapHandler:function(){this.toggles?this._userActivate(!this.active):this.active=!1},_detectKeyboardFocus:function(e){this._setReceivedFocusFromKeyboard(!this.pointerDown&&e)},_userActivate:function(e){this.active!==e&&(this.active=e,this.fire("change"))},_downHandler:function(e){this._setPointerDown(!0),this._setPressed(!0),this._setReceivedFocusFromKeyboard(!1)},_upHandler:function(){this._setPointerDown(!1),this._setPressed(!1)},_spaceKeyDownHandler:function(e){var t=e.detail.keyboardEvent,i=Polymer.dom(t).localTarget;this.isLightDescendant(i)||(t.preventDefault(),t.stopImmediatePropagation(),this._setPressed(!0))},_spaceKeyUpHandler:function(e){var t=e.detail.keyboardEvent,i=Polymer.dom(t).localTarget;this.isLightDescendant(i)||(this.pressed&&this._asyncClick(),this._setPressed(!1))},_asyncClick:function(){this.async(function(){this.click()},1)},_pressedChanged:function(e){this._changedButtonState()},_ariaActiveAttributeChanged:function(e,t){t&&t!=e&&this.hasAttribute(t)&&this.removeAttribute(t)},_activeChanged:function(e,t){this.toggles?this.setAttribute(this.ariaActiveAttribute,e?"true":"false"):this.removeAttribute(this.ariaActiveAttribute),this._changedButtonState()},_controlStateChanged:function(){this.disabled?this._setPressed(!1):this._changedButtonState()},_changedButtonState:function(){this._buttonStateChanged&&this._buttonStateChanged()}},Polymer.IronButtonState=[Polymer.IronA11yKeysBehavior,Polymer.IronButtonStateImpl];</script><dom-module id="bottom-tab" assetpath="../bower_components/bottom-nav/">
   <template>
     <style>
@@ -1738,7 +2168,7 @@ n&&e.updateNativeStyleProperties(document.documentElement,this.customStyle)}};re
             }
              
         bottom-nav {
-            background-color: #1e88e5;
+            background-color: #F44336;
         }
         </style>
          <test-app></test-app>

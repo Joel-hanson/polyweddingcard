@@ -9,7 +9,9 @@
     "polymer-simple-slider": "^1.0.1",
     "paper-carousel": "Redbility/paper-carousel#^1.1.0",
     "bottom-nav": "greenyouse/bottom-nav#^0.1.6",
-    "app-layout": "PolymerElements/app-layout#^0.10.6"
+    "app-layout": "PolymerElements/app-layout#^0.10.6",
+    "iron-image": "PolymerElements/iron-image#^1.2.5",
+    "paper-spinner": "PolymerElements/paper-spinner#^1.2.1"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
