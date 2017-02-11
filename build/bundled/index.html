@@ -4,10 +4,9 @@
     <title>Wedding card</title>
     <meta name="description" content="test description">
     <link rel="manifest" href="/manifest.json">
-    <script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-    <link rel="icon" sizes="192x192" href="/image/images.png">
     <link rel="import" href="/src/test-shell.html">
     <meta name="theme-color" content="#F44336">
+    <link rel="icon" sizes="192x192" href="/image/images.png">
 
     <style>
         body {
@@ -19,6 +18,8 @@
 <body>
     <test-shell></test-shell>
     <script>"serviceWorker"in navigator&&window.addEventListener("load",function(){navigator.serviceWorker.register("/service-worker.js")});</script>
+    <script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+
 
 
 </body></html>

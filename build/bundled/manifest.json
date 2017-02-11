@@ -2,7 +2,7 @@
     "name": "Wedding Card",
     "short_name": "Wedding Card",
     "description": "wedding web app",
-    "start_url": "/",
+    "start_url": "index.html?launcher=true",
     "display": "standalone",
     "theme_color": "#F44336",
     "background_color": "#F44336",
@@ -11,4 +11,5 @@
         "sizes": "192x192",
         "type": "image/png"
     }]
+
 }
